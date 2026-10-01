@@ -7,11 +7,11 @@ import java.util.Stack;
 public class Metodos {
     public Pacientes[] inicializarPacientes() {
         Pacientes[] matriz = new Pacientes[5];
-        matriz[0] = new Pacientes (101, "Ana", 32, "Medicina", "Pendiente");
-        matriz[1] = new Pacientes (102, "Carlos", 67, "Medicina", "Pendiente");
-        matriz[2] = new Pacientes (103, "Laura", 25, "Odontologia", "Pendiente");
-        matriz[3] = new Pacientes (104, "Pedro", 71, "Medicina", "Pendiente");
-        matriz[4] = new Pacientes (105, "Marta", 45, "Odontologia", "Pendiente");
+        matriz[0] = new Pacientes(101, "Ana", 32, "Medicina", "Pendiente");
+        matriz[1] = new Pacientes(102, "Carlos", 67, "Medicina", "Pendiente");
+        matriz[2] = new Pacientes(103, "Laura", 25, "Odontologia", "Pendiente");
+        matriz[3] = new Pacientes(104, "Pedro", 71, "Medicina", "Pendiente");
+        matriz[4] = new Pacientes(105, "Marta", 45, "Odontologia", "Pendiente");
         return matriz;
     }
 
@@ -24,8 +24,9 @@ public class Metodos {
         return null;
     }
 
-    private void registrarHistorial(ArrayList<String> historial, String accion) {
+    private ArrayList<String> registrarHistorial(ArrayList<String> historial, String accion) {
         historial.add(accion);
+        return historial;
     }
 
     public Stack<Pacientes> enviarAFila(Pacientes[] matriz, Stack<Pacientes> pendientes, Scanner sc,
@@ -48,7 +49,6 @@ public class Metodos {
         return pendientes;
     }
 
-
     public Queue<Pacientes> atenderPaciente(Stack<Pacientes> pendientes, Queue<Pacientes> prioritarios,
             Queue<Pacientes> atendidos, ArrayList<String> historial) {
         Pacientes p = null;
@@ -69,7 +69,6 @@ public class Metodos {
         }
         return atendidos;
     }
-
 
     public Queue<Pacientes> cancelarCita(Stack<Pacientes> pendientes, Queue<Pacientes> prioritarios,
             Queue<Pacientes> cancelados, Scanner sc, ArrayList<String> historial) {
@@ -92,8 +91,7 @@ public class Metodos {
         return cancelados;
     }
 
-
-    public void cambiarServicio(Pacientes[] matriz, Scanner sc, ArrayList<String> historial) {
+    public Pacientes cambiarServicio(Pacientes[] matriz, Scanner sc, ArrayList<String> historial) {
         System.out.println("Ingrese el id del paciente: ");
         int id = validarEntero(sc);
         sc.nextLine();
@@ -110,6 +108,7 @@ public class Metodos {
                     + anterior + " -> " + nuevo);
             System.out.println("Servicio actualizado correctamente");
         }
+        return p;
     }
 
     public Queue<Pacientes> marcarPrioritario(Stack<Pacientes> pendientes, Queue<Pacientes> prioritarios, Scanner sc,
@@ -129,8 +128,7 @@ public class Metodos {
         return prioritarios;
     }
 
-    
-    public void retirarAtencion(Stack<Pacientes> pendientes, Queue<Pacientes> prioritarios, Scanner sc,
+    public Pacientes retirarAtencion(Stack<Pacientes> pendientes, Queue<Pacientes> prioritarios, Scanner sc,
             ArrayList<String> historial) {
         System.out.println("Ingrese el id del paciente a retirar de la atención: ");
         int id = validarEntero(sc);
@@ -147,15 +145,13 @@ public class Metodos {
             registrarHistorial(historial, "Paciente " + p.getNombre() + " (id " + id + ") retirado de la atención");
             System.out.println("Paciente retirado de la atención");
         }
+        return p;
     }
-
-    
 
     public Stack<Pacientes> volverASolicitar(Pacientes[] matriz, Stack<Pacientes> pendientes, Scanner sc,
             ArrayList<String> historial) {
         return enviarAFila(matriz, pendientes, sc, historial);
     }
-
 
     private Pacientes removerDePila(Stack<Pacientes> pila, int id) {
         Stack<Pacientes> aux = new Stack<>();
@@ -193,67 +189,68 @@ public class Metodos {
         return encontrado;
     }
 
-    public void mostrarRegistrados(Pacientes[] matriz) {
-        System.out.println("Pacientes registrados inicialmente:");
+    public String mostrarRegistrados(Pacientes[] matriz) {
+        StringBuilder sb = new StringBuilder("Pacientes registrados inicialmente:");
         for (Pacientes p : matriz) {
-            System.out.println(p);
+            sb.append("\n").append(p);
         }
+        return sb.toString();
     }
 
-    public void mostrarPendientes(Stack<Pacientes> pendientes) {
+    public String mostrarPendientes(Stack<Pacientes> pendientes) {
         if (pendientes.isEmpty()) {
-            System.out.println("No hay pacientes pendientes");
-        } else {
-            System.out.println("Pacientes pendientes (en orden de llegada):");
-            for (Pacientes p : pendientes) {
-                System.out.println(p);
-            }
+            return "No hay pacientes pendientes";
         }
+        StringBuilder sb = new StringBuilder("Pacientes pendientes (en orden de llegada):");
+        for (Pacientes p : pendientes) {
+            sb.append("\n").append(p);
+        }
+        return sb.toString();
     }
 
-    public void mostrarAtendidos(Queue<Pacientes> atendidos) {
+    public String mostrarAtendidos(Queue<Pacientes> atendidos) {
         if (atendidos.isEmpty()) {
-            System.out.println("No hay pacientes atendidos");
-        } else {
-            System.out.println("Pacientes atendidos:");
-            for (Pacientes p : atendidos) {
-                System.out.println(p);
-            }
+            return "No hay pacientes atendidos";
         }
+        StringBuilder sb = new StringBuilder("Pacientes atendidos:");
+        for (Pacientes p : atendidos) {
+            sb.append("\n").append(p);
+        }
+        return sb.toString();
     }
 
-    public void mostrarCancelados(Queue<Pacientes> cancelados) {
+    public String mostrarCancelados(Queue<Pacientes> cancelados) {
         if (cancelados.isEmpty()) {
-            System.out.println("No hay pacientes cancelados");
-        } else {
-            System.out.println("Pacientes cancelados:");
-            for (Pacientes p : cancelados) {
-                System.out.println(p);
-            }
+            return "No hay pacientes cancelados";
         }
+        StringBuilder sb = new StringBuilder("Pacientes cancelados:");
+        for (Pacientes p : cancelados) {
+            sb.append("\n").append(p);
+        }
+        return sb.toString();
     }
 
-    public void mostrarPrioritarios(Queue<Pacientes> prioritarios) {
+    public String mostrarPrioritarios(Queue<Pacientes> prioritarios) {
         if (prioritarios.isEmpty()) {
-            System.out.println("No hay pacientes prioritarios");
-        } else {
-            System.out.println("Pacientes prioritarios:");
-            for (Pacientes p : prioritarios) {
-                System.out.println(p);
-            }
+            return "No hay pacientes prioritarios";
         }
+        StringBuilder sb = new StringBuilder("Pacientes prioritarios:");
+        for (Pacientes p : prioritarios) {
+            sb.append("\n").append(p);
+        }
+        return sb.toString();
     }
 
-    public void mostrarHistorial(ArrayList<String> historial) {
+    public String mostrarHistorial(ArrayList<String> historial) {
         if (historial.isEmpty()) {
-            System.out.println("Aún no se ha realizado ninguna operación");
-        } else {
-            String[] arregloHistorial = historial.toArray(new String[0]);
-            System.out.println("Historial de operaciones:");
-            for (int i = 0; i < arregloHistorial.length; i++) {
-                System.out.println((i + 1) + ". " + arregloHistorial[i]);
-            }
+            return "Aún no se ha realizado ninguna operación";
         }
+        String[] arregloHistorial = historial.toArray(new String[0]);
+        StringBuilder sb = new StringBuilder("Historial de operaciones:");
+        for (int i = 0; i < arregloHistorial.length; i++) {
+            sb.append("\n").append(i + 1).append(". ").append(arregloHistorial[i]);
+        }
+        return sb.toString();
     }
 
     public int validarEntero(Scanner sc) {

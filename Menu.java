@@ -8,13 +8,14 @@ public class Menu {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Metodos m = new Metodos();
-        
+
         Pacientes[] matriz = m.inicializarPacientes();
         Stack<Pacientes> pendientes = new Stack<>();
         Queue<Pacientes> atendidos = new LinkedList<>();
         Queue<Pacientes> cancelados = new LinkedList<>();
         Queue<Pacientes> prioritarios = new LinkedList<>();
         ArrayList<String> historial = new ArrayList<>();
+        Pacientes resultado;
 
         boolean continuar = true;
 
@@ -49,34 +50,34 @@ public class Menu {
                     cancelados = m.cancelarCita(pendientes, prioritarios, cancelados, sc, historial);
                     break;
                 case 4:
-                    m.cambiarServicio(matriz, sc, historial);
+                    resultado = m.cambiarServicio(matriz, sc, historial);
                     break;
                 case 5:
                     prioritarios = m.marcarPrioritario(pendientes, prioritarios, sc, historial);
                     break;
                 case 6:
-                    m.retirarAtencion(pendientes, prioritarios, sc, historial);
+                    resultado = m.retirarAtencion(pendientes, prioritarios, sc, historial);
                     break;
                 case 7:
                     pendientes = m.volverASolicitar(matriz, pendientes, sc, historial);
                     break;
                 case 8:
-                    m.mostrarRegistrados(matriz);
+                    System.out.println(m.mostrarRegistrados(matriz));
                     break;
                 case 9:
-                    m.mostrarPendientes(pendientes);
+                    System.out.println(m.mostrarPendientes(pendientes));
                     break;
                 case 10:
-                    m.mostrarAtendidos(atendidos);
+                    System.out.println(m.mostrarAtendidos(atendidos));
                     break;
                 case 11:
-                    m.mostrarCancelados(cancelados);
+                    System.out.println(m.mostrarCancelados(cancelados));
                     break;
                 case 12:
-                    m.mostrarPrioritarios(prioritarios);
+                    System.out.println(m.mostrarPrioritarios(prioritarios));
                     break;
                 case 13:
-                    m.mostrarHistorial(historial);
+                    System.out.println(m.mostrarHistorial(historial));
                     break;
                 case 14:
                     System.out.println("Hasta luego");
